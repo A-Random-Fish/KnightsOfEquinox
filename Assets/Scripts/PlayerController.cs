@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject playerDisplay;
     [SerializeField] float playerRotSmoothing;
     Vector3 playerLookDirection;
+    float attackAnim;
+    float attackTimer;
+    float attackCoyoteTime;
     
     [Header("Movement")]
     [SerializeField] Transform orientation;
@@ -63,6 +66,11 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Moving", movementInput != Vector2.zero);
 
         rb.AddForce(gravity * Vector3.down, ForceMode.Force);
+
+        attackTimer += Time.deltaTime;
+        attackCoyoteTime -= Time.deltaTime;
+
+        AttackFunc();
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -85,5 +93,43 @@ public class PlayerController : MonoBehaviour
         isDodging = true;
         yield return new WaitForSeconds(dodgeLength);
         isDodging = false;
+    }
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            attackCoyoteTime = 0.1f;
+
+            
+        }
+    }
+
+    private void AttackFunc()
+    {
+        if (attackTimer >= 0.4f && attackCoyoteTime > 0f)
+            {
+                attackAnim++;
+                if (attackAnim > 2)
+                {
+                    attackAnim = 0;
+                }
+
+                switch (attackAnim)
+                {
+                    case 0:
+                        anim.Play("playerBirdAttack1");
+                        attackTimer = 0;
+                        break;
+                    case 1:
+                        anim.Play("playerBirdAttack2");
+                        attackTimer = 0;
+                        break;
+                    case 2:
+                        anim.Play("playerBirdAttack3");
+                        attackTimer = 0;
+                        break;
+                }
+            }
     }
 }
