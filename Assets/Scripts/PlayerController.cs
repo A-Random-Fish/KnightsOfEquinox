@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     Animator anim;
 
+    [SerializeField] GameObject varyousuck;
     [SerializeField] float gravity;
+    [SerializeField] ParticleSystem dashEffect;
 
     [Header("Animation Variables")]
     [SerializeField] GameObject playerDisplay;
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        dashEffect.Stop();
     }
 
     void Update()
@@ -85,6 +88,7 @@ public class PlayerController : MonoBehaviour
             anim.SetTrigger("Dodge");
             StartCoroutine("DodgeDuration");
             dodgeCooldown = dodgeCooldownLength;
+            dashEffect.Play();
         }
     }
 
@@ -93,6 +97,7 @@ public class PlayerController : MonoBehaviour
         isDodging = true;
         yield return new WaitForSeconds(dodgeLength);
         isDodging = false;
+        dashEffect.Stop();
     }
 
     public void Attack(InputAction.CallbackContext context)
@@ -131,5 +136,13 @@ public class PlayerController : MonoBehaviour
                         break;
                 }
             }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Danger"))
+        {
+            varyousuck.SetActive(true);
+        }
     }
 }
