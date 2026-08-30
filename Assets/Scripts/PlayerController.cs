@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     Animator anim;
 
+    [SerializeField] float gravity;
+
     [Header("Animation Variables")]
     [SerializeField] GameObject playerDisplay;
     [SerializeField] float playerRotSmoothing;
@@ -59,6 +61,8 @@ public class PlayerController : MonoBehaviour
 
         //Animator Conditions
         anim.SetBool("Moving", movementInput != Vector2.zero);
+
+        rb.AddForce(gravity * Vector3.down, ForceMode.Force);
     }
 
     public void Move(InputAction.CallbackContext context)

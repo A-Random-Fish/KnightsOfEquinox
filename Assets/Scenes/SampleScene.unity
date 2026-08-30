@@ -561,6 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eddceead04498854f8728ccd4ed91e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  gravity: 5
   playerDisplay: {fileID: 1958950217}
   playerRotSmoothing: 20
   orientation: {fileID: 1162760289}
