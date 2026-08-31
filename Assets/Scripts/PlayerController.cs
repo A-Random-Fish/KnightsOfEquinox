@@ -6,9 +6,8 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
-    Animator anim;
+    [SerializeField] Animator anim;
 
-    [SerializeField] GameObject varyousuck;
     [SerializeField] float gravity;
     [SerializeField] ParticleSystem dashEffect;
 
@@ -19,11 +18,14 @@ public class PlayerController : MonoBehaviour
     float attackAnim;
     float attackTimer;
     float attackCoyoteTime;
+    float attackAnimResetTimer;
     
     [Header("Movement")]
     [SerializeField] Transform orientation;
     Vector2 movementInput;
     Vector2 dodgeInput = new Vector2(0f,1f);
+    [SerializeField] float lungeForce;
+    float currentLungeForce;
 
     [Header("Movement Variable")]
     [SerializeField] float moveSpeed;
@@ -38,8 +40,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
         dashEffect.Stop();
+        playerLookDirection = new Vector3(0,0,1);
+        attackAnim = -1;
     }
 
     void Update()
@@ -49,12 +52,12 @@ public class PlayerController : MonoBehaviour
         if (movementInput != Vector2.zero && !isDodging)
         {
             dodgeInput = movementInput;
-            playerLookDirection = new Vector3(movementInput.x, 0f, movementInput.y);
+            playerLookDirection = new Vector3(movementInput.x, 0f, movementInput.y).normalized;
         }
 
         if (!isDodging)
         {
-            rb.linearVelocity = new Vector3(movementInput.x * moveSpeed, rb.linearVelocity.y, movementInput.y * moveSpeed);
+            rb.linearVelocity = new Vector3(movementInput.x * moveSpeed, rb.linearVelocity.y, movementInput.y * moveSpeed) + new Vector3(playerLookDirection.x * currentLungeForce, 0f, playerLookDirection.z * currentLungeForce);
         }
         else 
         {
@@ -66,14 +69,30 @@ public class PlayerController : MonoBehaviour
         playerDisplay.transform.rotation = Quaternion.Lerp(playerDisplay.transform.rotation, targetRot, playerRotSmoothing * Time.deltaTime);
 
         //Animator Conditions
-        anim.SetBool("Moving", movementInput != Vector2.zero);
+        anim.SetBool("Moving", movementInput != Vector2.zero || attackTimer <= 0.2f && attackAnim == 2);
+        anim.SetFloat("MoveAnimSpeed", rb.linearVelocity.magnitude/moveSpeed);
 
         rb.AddForce(gravity * Vector3.down, ForceMode.Force);
 
         attackTimer += Time.deltaTime;
         attackCoyoteTime -= Time.deltaTime;
+        attackAnimResetTimer -= Time.deltaTime;
+
+        if (attackAnimResetTimer <= 0f)
+        {
+            attackAnim = -1;
+        }
 
         AttackFunc();
+
+        if (attackTimer <= 0.2f && attackAnim == 2)
+        {
+            currentLungeForce = lungeForce;
+        }
+        else
+        {
+            currentLungeForce = 0;
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -105,8 +124,6 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             attackCoyoteTime = 0.1f;
-
-            
         }
     }
 
@@ -115,6 +132,7 @@ public class PlayerController : MonoBehaviour
         if (attackTimer >= 0.4f && attackCoyoteTime > 0f)
             {
                 attackAnim++;
+                attackAnimResetTimer = 1f;
                 if (attackAnim > 2)
                 {
                     attackAnim = 0;
@@ -136,13 +154,5 @@ public class PlayerController : MonoBehaviour
                         break;
                 }
             }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Danger"))
-        {
-            varyousuck.SetActive(true);
-        }
     }
 }
