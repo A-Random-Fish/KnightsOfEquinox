@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class HitboxPlayerManager : MonoBehaviour
 {
@@ -11,7 +12,10 @@ public class HitboxPlayerManager : MonoBehaviour
         {
             enemyHealth = other.GetComponent<EnemyHealthComponent>();
             if (enemyHealth != null)
+            {
                 enemyHealth.Damage(damage);
+                enemyHealth.StartCoroutine("KnockbackEnemy", transform);
+            }
         }   
     }
 }
