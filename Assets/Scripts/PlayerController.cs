@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float gravity;
     [SerializeField] ParticleSystem dashEffect;
+    [SerializeField] GameObject HitboxGameObject;
 
     [Header("Animation Variables")]
     [SerializeField] GameObject playerDisplay;
@@ -62,6 +64,11 @@ public class PlayerController : MonoBehaviour
         else 
         {
             rb.linearVelocity = new Vector3(dodgeInput.x * dodgeSpeed, rb.linearVelocity.y, dodgeInput.y * dodgeSpeed);
+        }
+
+        if (attackTimer >= 0.4f)
+        {
+            HitboxGameObject.SetActive(false);
         }
 
         
@@ -133,6 +140,7 @@ public class PlayerController : MonoBehaviour
             {
                 attackAnim++;
                 attackAnimResetTimer = 1f;
+                HitboxGameObject.SetActive(true); // My bad for the shitty implement just take out the lines here and 68-71 including the variable outside the header associated with gameObject.
                 if (attackAnim > 2)
                 {
                     attackAnim = 0;
