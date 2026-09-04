@@ -7151,7 +7151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e6288e529515d4d98dcafd5afd7e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  kbDuration: 1
+  stoppingDistance: 4
+  enemySpeed: 8
 --- !u!195 &919132148577080224
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -4,11 +4,12 @@ using System.Collections;
 
 public class GroundChaserEnemyAI : MonoBehaviour
 {
-    private NavMeshAgent nma;
+    NavMeshAgent nma;
     GameObject[] players;
     GameObject target;
     float smallestDistance;
-    [SerializeField] float kbDuration;
+    [SerializeField] float stoppingDistance;
+    [SerializeField] float enemySpeed;
 
     void Start()
     {
@@ -39,20 +40,14 @@ public class GroundChaserEnemyAI : MonoBehaviour
 
         if (target != null)
             nma.destination = target.transform.position;
-    }
 
-    void OnTriggerEnter(Collider col)
-    {
-        if (col.CompareTag("PlayerHitbox"))
+        if (Vector3.Distance(target.transform.position, transform.position) <= stoppingDistance)
         {
-            StartCoroutine("KnockbackEnemy");
+            nma.speed = 0f;
         }
-    }
-
-    private IEnumerator KnockbackEnemy()
-    {
-        nma.enabled = false;
-        yield return new WaitForSeconds(kbDuration);
-        nma.enabled = true;
+        else
+        {
+            nma.speed = enemySpeed;
+        }
     }
 }
