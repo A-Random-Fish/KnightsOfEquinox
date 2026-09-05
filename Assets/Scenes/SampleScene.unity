@@ -659,11 +659,12 @@ MonoBehaviour:
   HitboxGameObject: {fileID: 495563862}
   playerDisplay: {fileID: 1958950217}
   playerRotSmoothing: 20
-  orientation: {fileID: 1162760289}
+  orientation: {fileID: 0}
   lungeForce: 10
   moveSpeed: 20
   dodgeSpeed: 40
   dodgeLength: 0.33
+  hitKBForce: 15
   dodgeCooldownLength: 1.25
 --- !u!114 &427398015
 MonoBehaviour:
@@ -911,7 +912,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 5.2502193, y: 4.850815, z: 4.942476}
   m_Center: {x: 0, y: 1.9254084, z: 2.4410765}
@@ -927,6 +928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e51f0c86f823342b75a8e3618a65e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  player: {fileID: 427398012}
   damage: 5
 --- !u!1 &522573724
 GameObject:
@@ -1350,37 +1352,6 @@ Transform:
   - {fileID: 1447133876}
   - {fileID: 629176568}
   - {fileID: 1883207553}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
---- !u!1 &1162760288
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1162760289}
-  m_Layer: 0
-  m_Name: Orientation
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1162760289
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162760288}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!1 &1426023766
@@ -7284,8 +7255,8 @@ MonoBehaviour:
   iframes: 0
   maxHealth: 25
   defense: 0
-  kbDuration: 0.5
-  kbForce: 50
+  kbDuration: 0.25
+  kbForce: 12
   bodyObjects:
   - {fileID: 832149484641918123}
   - {fileID: 8707273952454405855}
@@ -7304,7 +7275,7 @@ Rigidbody:
   m_GameObject: {fileID: 919132148577080222}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 1
+  m_LinearDamping: 3
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -10747,7 +10718,6 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 427398013}
-  - {fileID: 1162760289}
   - {fileID: 1092150876}
   - {fileID: 522573728}
   - {fileID: 138893920}

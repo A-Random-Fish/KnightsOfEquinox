@@ -50,7 +50,9 @@ public class EnemyHealthComponent : MonoBehaviour
     {
         nma.enabled = false;
         rb.isKinematic = false;
-        rb.AddForce(transform.position - kbLocation.position * kbForce + Vector3.up * kbForce/2);
+        Vector3 kbDir = transform.position - kbLocation.position;
+        kbDir = new Vector3(kbDir.x, 0, kbDir.z);
+        rb.AddForce(kbDir.normalized * kbForce, ForceMode.Impulse);
         yield return new WaitForSeconds(kbDuration);
         nma.Warp(transform.position);
         nma.enabled = true;

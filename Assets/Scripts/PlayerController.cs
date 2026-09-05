@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float dodgeSpeed; 
     [SerializeField] float dodgeLength;
     bool isDodging = false;
+    [SerializeField] float hitKBForce;
 
     [Header("Cooldowns")]
     [SerializeField] float dodgeCooldownLength;
@@ -64,11 +65,6 @@ public class PlayerController : MonoBehaviour
         else 
         {
             rb.linearVelocity = new Vector3(dodgeInput.x * dodgeSpeed, rb.linearVelocity.y, dodgeInput.y * dodgeSpeed);
-        }
-
-        if (attackTimer >= 0.4f)
-        {
-            HitboxGameObject.SetActive(false);
         }
 
         
@@ -140,7 +136,7 @@ public class PlayerController : MonoBehaviour
             {
                 attackAnim++;
                 attackAnimResetTimer = 1f;
-                HitboxGameObject.SetActive(true); // My bad for the shitty implement just take out the lines here and 68-71 including the variable outside the header associated with gameObject.
+                StartCoroutine("AttackHitboxEnable");
                 if (attackAnim > 2)
                 {
                     attackAnim = 0;
@@ -162,5 +158,17 @@ public class PlayerController : MonoBehaviour
                         break;
                 }
             }
+    }
+
+    private IEnumerator AttackHitboxEnable()
+    {
+        HitboxGameObject.GetComponent<Collider>().enabled = true;
+        yield return new WaitForSeconds(0.1f);
+        HitboxGameObject.GetComponent<Collider>().enabled = false;
+    }
+
+    public void HitKBFunc()
+    {
+        rb.AddForce(-playerLookDirection * hitKBForce, ForceMode.Impulse);
     }
 }

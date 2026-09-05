@@ -3,6 +3,7 @@ using System.Collections;
 
 public class HitboxPlayerManager : MonoBehaviour
 {
+    [SerializeField] GameObject player;
     [SerializeField] int damage;
     EnemyHealthComponent enemyHealth;
 
@@ -14,7 +15,8 @@ public class HitboxPlayerManager : MonoBehaviour
             if (enemyHealth != null)
             {
                 enemyHealth.Damage(damage);
-                enemyHealth.StartCoroutine("KnockbackEnemy", transform);
+                enemyHealth.StartCoroutine(enemyHealth.KnockbackEnemy(player.transform));
+                player.GetComponent<PlayerController>().HitKBFunc();
             }
         }   
     }
