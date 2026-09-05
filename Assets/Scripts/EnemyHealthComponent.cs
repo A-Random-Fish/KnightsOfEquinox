@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class EnemyHealthComponent : MonoBehaviour
@@ -13,6 +14,9 @@ public class EnemyHealthComponent : MonoBehaviour
     [SerializeField] int defense;
     [SerializeField] float kbDuration;
     [SerializeField] float kbForce;
+    [SerializeField] List<GameObject> bodyObjects;
+    [SerializeField] Material normalMat;
+    [SerializeField] Material hitFlashMat;
 
     void Start()
     {
@@ -33,6 +37,7 @@ public class EnemyHealthComponent : MonoBehaviour
             int damageToDeal = damage - defense;
             health -= damageToDeal;
             iframes = 0.33f;
+            StartCoroutine("HitFlash");
             
             if (health <= 0 )
             {
@@ -50,6 +55,27 @@ public class EnemyHealthComponent : MonoBehaviour
         nma.Warp(transform.position);
         nma.enabled = true;
         rb.isKinematic = true;
+    }
+
+    private IEnumerator HitFlash()
+    {
+        for (int i = 0; i < bodyObjects.Count; i++)
+        {
+            if (bodyObjects[i].GetComponent<MeshRenderer>() != null)
+                bodyObjects[i].GetComponent<MeshRenderer>().material = hitFlashMat;
+            else if (bodyObjects[i].GetComponent<SkinnedMeshRenderer>() != null)
+                bodyObjects[i].GetComponent<SkinnedMeshRenderer>().material = hitFlashMat;
+        }
+
+        yield return new WaitForSeconds(0.25f);
+
+        for (int i = 0; i < bodyObjects.Count; i++)
+        {
+            if (bodyObjects[i].GetComponent<MeshRenderer>() != null)
+                bodyObjects[i].GetComponent<MeshRenderer>().material = normalMat;
+            else if (bodyObjects[i].GetComponent<SkinnedMeshRenderer>() != null)
+                bodyObjects[i].GetComponent<SkinnedMeshRenderer>().material = normalMat;
+        }
     }
 
     private void Death()

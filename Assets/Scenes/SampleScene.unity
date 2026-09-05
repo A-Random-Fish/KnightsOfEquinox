@@ -7266,9 +7266,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 5.540417
+  m_Height: 5.04767
   m_Direction: 1
-  m_Center: {x: -0, y: 2.2702086, z: 0}
+  m_Center: {x: -0, y: 2.5165823, z: 0}
 --- !u!114 &919132148577080226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7284,8 +7284,17 @@ MonoBehaviour:
   iframes: 0
   maxHealth: 25
   defense: 0
-  kbDuration: 1
-  kbForce: 30
+  kbDuration: 0.5
+  kbForce: 50
+  bodyObjects:
+  - {fileID: 832149484641918123}
+  - {fileID: 8707273952454405855}
+  - {fileID: 8416272008379887402}
+  - {fileID: 2076850630935216830}
+  - {fileID: 1582813066612391597}
+  - {fileID: 7623545440604537392}
+  normalMat: {fileID: 2100000, guid: cad59fa08d4ee4c438406244bbcf856c, type: 2}
+  hitFlashMat: {fileID: 2100000, guid: 99cad3235609e01408b88b2f5758ebff, type: 2}
 --- !u!54 &919132148577080227
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7295,7 +7304,7 @@ Rigidbody:
   m_GameObject: {fileID: 919132148577080222}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 1
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
