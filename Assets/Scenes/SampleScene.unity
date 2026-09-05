@@ -616,6 +616,7 @@ GameObject:
   - component: {fileID: 427398016}
   - component: {fileID: 427398015}
   - component: {fileID: 427398014}
+  - component: {fileID: 427398018}
   m_Layer: 6
   m_Name: BirdKnightPlayer
   m_TagString: Player
@@ -862,6 +863,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &427398018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427398012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf0d0737d2f73d4ba5a26211ef0fba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  iframes: 0
+  maxHealth: 0
+  defense: 0
+  kbDuration: 0
 --- !u!1 &495563862
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,7 +1418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1440123260
 Transform:
   m_ObjectHideFlags: 0
@@ -1436,8 +1453,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 5, z: 3}
-  m_Center: {x: 0, y: 2, z: 2}
+  m_Size: {x: 5, y: 5, z: 4}
+  m_Center: {x: 0, y: 2, z: 2.5}
 --- !u!1 &1447133875
 GameObject:
   m_ObjectHideFlags: 0
@@ -7195,6 +7212,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   stoppingDistance: 4
   enemySpeed: 8
+  attackCooldownDuration: 2
+  HitboxGameObject: {fileID: 1440123259}
 --- !u!195 &919132148577080224
 NavMeshAgent:
   m_ObjectHideFlags: 0

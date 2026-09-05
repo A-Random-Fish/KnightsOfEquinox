@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using UnityEngine.Timeline;
 
 public class GroundChaserEnemyAI : MonoBehaviour
 {
@@ -10,15 +11,20 @@ public class GroundChaserEnemyAI : MonoBehaviour
     float smallestDistance;
     [SerializeField] float stoppingDistance;
     [SerializeField] float enemySpeed;
+    float attackCooldown = 1f;
+    [SerializeField] float attackCooldownDuration;
+    [SerializeField] GameObject HitboxGameObject;
 
     void Start()
     {
+        HitboxGameObject.GetComponent<Collider>().enabled = false;
         nma = GetComponent<NavMeshAgent>();
         players = GameObject.FindGameObjectsWithTag("Player");
     }
 
     void Update()
     {
+        attackCooldown -= Time.deltaTime;
         //get nearest player, set to target, move to target
         smallestDistance = 99999999f;
         if (players.Length > 1)
@@ -41,13 +47,26 @@ public class GroundChaserEnemyAI : MonoBehaviour
         if (target != null)
             nma.destination = target.transform.position;
 
-        if (Vector3.Distance(target.transform.position, transform.position) <= stoppingDistance)
+        if (Vector3.Distance(target.transform.position, transform.position) <= stoppingDistance) 
         {
             nma.speed = 0f;
+            if (attackCooldown <= 0f)
+            {
+                attackCooldown = attackCooldownDuration;
+                StartCoroutine("AttackHitboxEnable");
+            }
         }
         else
         {
             nma.speed = enemySpeed;
         }
+    }
+
+    private IEnumerator AttackHitboxEnable()
+    {
+            yield return new WaitForSeconds(0.2f);
+            HitboxGameObject.GetComponent<BoxCollider>().enabled = true;
+            yield return new WaitForSeconds(0.4f);
+            HitboxGameObject.GetComponent<BoxCollider>().enabled = false;
     }
 }
